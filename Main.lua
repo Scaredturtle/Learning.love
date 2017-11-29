@@ -1,12 +1,25 @@
 local hero_sheet
 local hero
+local ghost_sprite
+local ghost_sheet
+local scale = 1.5
 
 -- Animation Parameters --
-local fps = 10
+local fps = 60
 local frame = 1
 local anim_timer = 1 / fps
 local anim_xoffset 
 local num_frames = 6
+
+-- Collision Functions --
+local touch = false
+
+function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
+	return x1 < x2+w2 and
+		   x2 < x1+w1 and
+		   y1 < y2+h2 and
+		   y2 < y1+h1
+end
 
 function love.load()
 	-- Screen Init --
@@ -18,66 +31,100 @@ function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	hero_sheet = love.graphics.newImage("Assets/Oldhero.png")
 	hero = love.graphics.newQuad(1, 1, 16, 16, hero_sheet:getDimensions())
+	ghost_sheet = love.graphics.newImage("Assets/characters.png")
+	ghost_sprite = love.graphics.newQuad(112, 64, 16, 16, ghost_sheet:getDimensions())
 
+	--world init--
+	our_world = love.physics.newWorld( 0, 0, false)
+	
 	-- Player Init --
 	player = {}
 	player.x = 25
 	player.y = 25
-	player.width = 8
-	player.height = 8
+	player.width = select(3, hero:getViewport())
+	player.height = select(4, hero:getViewport())
+	player.body = love.physics.newBody(our_world, player.x, player.y, "dynamic")
+	player.shape = love.physics.newRectangleShape(player.width, player.height)
+	player.fixture = love.physics.newFixture(player.body, player.shape)
 	player.speed = 1.5
 	player.swing = function()
 	
+	end
+
+	--ghost init--
+	ghost = {}
+	ghost.x = 50
+	ghost.y = 50
+	ghost.width = select(3, ghost_sprite:getViewport())
+	ghost.height = select(4, ghost_sprite:getViewport())
+	ghost.body = love.physics.newBody(our_world, ghost.x, ghost.y, "static")
+	ghost.shape = love.physics.newRectangleShape(ghost.width, ghost.height)
+	ghost.fixture = love.physics.newFixture(ghost.body, ghost.shape)
+	ghost.speed = 1.25
+	ghost.vanish = function()
+		
 	end
 end
 
 function love.update(dt)
 	if dt > 0.04 then return end -- Stops the update function from running if alt-tabbed.
+	our_world:update(dt)
+
 
 	-- Player Movement -- 
+
+	--touch = checkCollision(player.x,player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height)
+
 	if (love.keyboard.isDown("right") and player.x < (screen.x - player.width)) then
-		player.x = player.x + player.speed
+		--if touch then
+			player.x = player.x + player.speed
+		--end
 
 		-- Walking Right Animation --
 
-		anim_timer = anim_timer * dt
+		--[[anim_timer = anim_timer * dt
 		if anim_timer <= 0 then
 			anim_timer = 1 / fps
 			frame = frame + 1
 			if frame > num_frames then frame = 1 end
 			anim_xoffset = 16 * frame
 			hero:setViewport(anim_xoffset, 16, 16, 16)
-		end
+		end]]--
 
 	end
-	if (love.keyboard.isDown("left") and player.x > (0 + player.width)) then
-		player.x = player.x - player.speed
+	if (love.keyboard.isDown("left") and player.x > 0) then
+		--if checkCollision(player.x,player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
+			player.x = player.x - player.speed
+		--end
 
 		-- Walking Left Animation --
 
 	end
-	if (love.keyboard.isDown("up") and player.y > (0 + player.height)) then
-		player.y = player.y - player.speed
+	if (love.keyboard.isDown("up") and player.y > 0) then
+		--if checkCollision(player.x,player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
+			player.y = player.y - player.speed
+		--end
 
 		-- Walking Up Animation --
 
 	end
 	if (love.keyboard.isDown("down") and player.y < (screen.y - player.height)) then
-		player.y = player.y + player.speed
+		--if checkCollision(player.x,player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
+			player.y = player.y + player.speed
+		--end
 
 		-- Walking Down Animation --
-		--[[anim_timer = anim_timer * dt
-		if anim_timer <= 0 then
-			anim_timer = 1 / fps
-			frame = frame + 1
-			if frame > num_frames then frame = 2 end
-			anim_xoffset = 25 * frame
-			hero:setViewport(anim_xoffset, 1, 24, 28)
-		end]]--
+
 	end
+	player.body:setPosition(player.x, player.y)
 end
 
 function love.draw()
 	--love.graphics.draw(hero_sheet, 25, 380, 0, 2, 2)
-	love.graphics.draw(hero_sheet, hero, player.x, player.y, 0, 1.5, 1.5, 8, 8)
+
+	love.graphics.draw(hero_sheet, hero, player.x, player.y)
+	love.graphics.draw(ghost_sheet, ghost_sprite, ghost.x, ghost.y)
+
+	love.graphics.rectangle("line", player.body:getX(), player.body:getY(), player.width, player.height) --player.body:getWorldPoints(player.shape:getPoints()))
+	love.graphics.rectangle("line", ghost.body:getX(), ghost.body:getY(), ghost.width, ghost.height)
 end
