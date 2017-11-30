@@ -12,13 +12,21 @@ local anim_xoffset
 local num_frames = 6
 
 -- Collision Functions --
-local touch = false
+local touch
 
-function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
+--[[function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
 	return x1 < x2+w2 and
 		   x2 < x1+w1 and
 		   y1 < y2+h2 and
 		   y2 < y1+h1
+end]]--
+
+function checkCollision(x1,y1,w1,h1, x2,y2,w2,h2)
+	if (x1 < x2 + w2 and x2 < x1 + w1 and y1 < y2 + h2 and y2 < y1 + h1) then
+		return true
+	else
+		return false
+	end
 end
 
 function love.load()
@@ -73,12 +81,12 @@ function love.update(dt)
 
 	-- Player Movement -- 
 
-	--touch = checkCollision(player.x,player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height)
+	touch = checkCollision(player.x,player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height)
 
 	if (love.keyboard.isDown("right") and player.x < (screen.x - player.width)) then
-		--if touch then
+		if not checkCollision((player.x+player.speed),player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
 			player.x = player.x + player.speed
-		--end
+		end
 
 		-- Walking Right Animation --
 
@@ -93,25 +101,25 @@ function love.update(dt)
 
 	end
 	if (love.keyboard.isDown("left") and player.x > 0) then
-		--if checkCollision(player.x,player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
+		if not checkCollision((player.x-player.speed),player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
 			player.x = player.x - player.speed
-		--end
+		end
 
 		-- Walking Left Animation --
 
 	end
 	if (love.keyboard.isDown("up") and player.y > 0) then
-		--if checkCollision(player.x,player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
+		if not checkCollision(player.x,(player.y-player.speed),player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
 			player.y = player.y - player.speed
-		--end
+		end
 
 		-- Walking Up Animation --
 
 	end
 	if (love.keyboard.isDown("down") and player.y < (screen.y - player.height)) then
-		--if checkCollision(player.x,player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
+		if not checkCollision(player.x,(player.y+player.speed),player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
 			player.y = player.y + player.speed
-		--end
+		end
 
 		-- Walking Down Animation --
 
@@ -121,6 +129,18 @@ end
 
 function love.draw()
 	--love.graphics.draw(hero_sheet, 25, 380, 0, 2, 2)
+
+	love.graphics.print(player.x, 0, 560)
+	love.graphics.print(player.y, 50, 560)
+	love.graphics.print(player.width, 100, 560)
+	love.graphics.print(player.height, 150, 560)
+
+	love.graphics.print(ghost.x, 250, 560)
+	love.graphics.print(ghost.y, 300, 560)
+	love.graphics.print(ghost.width, 350, 560)
+	love.graphics.print(ghost.height, 400, 560)
+
+	love.graphics.print(tostring(touch), 500, 560)
 
 	love.graphics.draw(hero_sheet, hero, player.x, player.y)
 	love.graphics.draw(ghost_sheet, ghost_sprite, ghost.x, ghost.y)
