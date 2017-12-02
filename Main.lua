@@ -1,3 +1,6 @@
+local camera = require ("Component/camera")
+--local player = require ("Component/player")
+
 local hero_sheet
 local hero
 local ghost_sprite
@@ -13,13 +16,6 @@ local num_frames = 6
 
 -- Collision Functions --
 local touch
-
---[[function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
-	return x1 < x2+w2 and
-		   x2 < x1+w1 and
-		   y1 < y2+h2 and
-		   y2 < y1+h1
-end]]--
 
 function checkCollision(x1,y1,w1,h1, x2,y2,w2,h2)
 	if (x1 < x2 + w2 and x2 < x1 + w1 and y1 < y2 + h2 and y2 < y1 + h1) then
@@ -125,6 +121,10 @@ function love.update(dt)
 
 	end
 	player.body:setPosition(player.x, player.y)
+
+	-- Camera Adjustment --
+	camera:setPosition (player.x - (screen.x / 5), player.y - (screen.y / 5)) -- this is to move the camera over the player
+	camera:setScale (.5, .5) -- this is to control the zoom of the camera
 end
 
 function love.draw()
@@ -142,9 +142,13 @@ function love.draw()
 
 	love.graphics.print(tostring(touch), 500, 560)
 
+	camera:set()
+
 	love.graphics.draw(hero_sheet, hero, player.x, player.y)
 	love.graphics.draw(ghost_sheet, ghost_sprite, ghost.x, ghost.y)
 
 	love.graphics.rectangle("line", player.body:getX(), player.body:getY(), player.width, player.height) --player.body:getWorldPoints(player.shape:getPoints()))
 	love.graphics.rectangle("line", ghost.body:getX(), ghost.body:getY(), ghost.width, ghost.height)
+
+	camera:unset()
 end
