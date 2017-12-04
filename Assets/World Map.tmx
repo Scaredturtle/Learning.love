@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="9">
+ <tileset firstgid="1" source="Terrain_tiles.tsx"/>
+ <tileset firstgid="118" source="Terrain_tiles.tsx"/>
+ <layer name="Ground" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2kuqgzAAQFE38PYhFApdj/vfRzsRSohJNMbk1TM4k+I3F62/ZZqm5eMZmD9eB4XLSqmZ9xctX1LjVNJg3rnuObK+3uMxgq0mjx0tajg+tntsnbvCsQt/P6OFHvEmqekeJ69Xi7ImJW1qhdcMvfd/RFf2eOpxqEmLLut5T4+6Lmc30uL8NnuX5di4pk1uvth1sx7t+6SmbXE/ybEmWozTpaTFX0bvffvPcj1i8+jRvsdKjzHEmmxNq0d7r6nuXoV6sfcmuXv9q59l3k3sekqPcVr03qa7WZ+FaNHP97vCVu/W2afldw7kpZ7R6tCPBn04HsZQ8l+tRVux79u06K/196HUd+i9bXehwVh0GIvxBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIDf9wZDKRRr
+  </data>
+ </layer>
+ <layer name="Castle Walls" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1SEKADAIQFHDLrb7X2qsjoEmMbwHFqM/GAEAAAAAZFZx6FG5tR599JhFj1n0mOX92/uz0wMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAuA6TTwCu
+  </data>
+ </layer>
+ <objectgroup name="Castle Walls">
+  <object id="4" x="1088" y="384" width="32" height="192"/>
+  <object id="5" x="1120" y="384" width="256" height="32"/>
+  <object id="6" x="1376" y="384" width="32" height="192"/>
+  <object id="7" x="1120" y="544" width="96" height="32"/>
+  <object id="8" x="1248" y="544" width="128" height="32"/>
+ </objectgroup>
+</map>
