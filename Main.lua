@@ -1,5 +1,6 @@
-local camera = require ("Component/camera")
---local player = require ("Component/player")
+--[[local camera = require ("Component.camera")
+--local player = require ("Component.player")
+--local ghosts = require ("Component.ghosts")
 
 local hero_sheet
 local hero
@@ -16,6 +17,7 @@ local num_frames = 6
 
 -- Collision Functions --
 local touch
+local dist
 
 function checkCollision(x1,y1,w1,h1, x2,y2,w2,h2)
 	if (x1 < x2 + w2 and x2 < x1 + w1 and y1 < y2 + h2 and y2 < y1 + h1) then
@@ -23,6 +25,12 @@ function checkCollision(x1,y1,w1,h1, x2,y2,w2,h2)
 	else
 		return false
 	end
+end
+
+function checkDistance(x1, y1, x2, y2)
+	local dx = x1 - x2
+	local dy = y1 - y2
+	return math.sqrt(dx*dx + dy*dy)
 end
 
 function love.load()
@@ -50,11 +58,10 @@ function love.load()
 	player.body = love.physics.newBody(our_world, player.x, player.y, "dynamic")
 	player.shape = love.physics.newRectangleShape(player.width, player.height)
 	player.fixture = love.physics.newFixture(player.body, player.shape)
+	player.hp = 100
+	player.damage = 100
 	player.speed = 1.5
-	player.swing = function()
 	
-	end
-
 	--ghost init--
 	ghost = {}
 	ghost.x = 50
@@ -64,6 +71,7 @@ function love.load()
 	ghost.body = love.physics.newBody(our_world, ghost.x, ghost.y, "static")
 	ghost.shape = love.physics.newRectangleShape(ghost.width, ghost.height)
 	ghost.fixture = love.physics.newFixture(ghost.body, ghost.shape)
+	ghost.hp = 100
 	ghost.speed = 1.25
 	ghost.vanish = function()
 		
@@ -78,6 +86,7 @@ function love.update(dt)
 	-- Player Movement -- 
 
 	touch = checkCollision(player.x,player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height)
+	dist = checkDistance(player.x, player.y, ghost.x, ghost.y)
 
 	if (love.keyboard.isDown("right") and player.x < (screen.x - player.width)) then
 		if not checkCollision((player.x+player.speed),player.y,player.width,player.height, ghost.x,ghost.y,ghost.width,ghost.height) then
@@ -86,14 +95,14 @@ function love.update(dt)
 
 		-- Walking Right Animation --
 
-		--[[anim_timer = anim_timer * dt
+		anim_timer = anim_timer * dt
 		if anim_timer <= 0 then
 			anim_timer = 1 / fps
 			frame = frame + 1
 			if frame > num_frames then frame = 1 end
 			anim_xoffset = 16 * frame
 			hero:setViewport(anim_xoffset, 16, 16, 16)
-		end]]--
+		end
 
 	end
 	if (love.keyboard.isDown("left") and player.x > 0) then
@@ -122,9 +131,21 @@ function love.update(dt)
 	end
 	player.body:setPosition(player.x, player.y)
 
+	if (love.keyboard.isDown("v")) then
+		for i, v in pairs(enemies) do
+			local reach = checkDistance(player.x, player.y, v.x, v.y)
+			if reach < 20 then
+				v.hp = v.hp - player.damage
+			end
+		end
+	end
+
+
 	-- Camera Adjustment --
 	camera:setPosition (player.x - (screen.x / 5), player.y - (screen.y / 5)) -- this is to move the camera over the player
 	camera:setScale (.5, .5) -- this is to control the zoom of the camera
+
+	
 end
 
 function love.draw()
@@ -141,6 +162,8 @@ function love.draw()
 	love.graphics.print(ghost.height, 400, 560)
 
 	love.graphics.print(tostring(touch), 500, 560)
+	love.graphics.print(tostring(dist), 550, 560)
+	love.graphics.print(ghost.hp, 500, 510)
 
 	camera:set()
 
@@ -151,4 +174,31 @@ function love.draw()
 	love.graphics.rectangle("line", ghost.body:getX(), ghost.body:getY(), ghost.width, ghost.height)
 
 	camera:unset()
+end]]--
+
+local sprite = require("Component/units/sprite")
+local entity = require("Component/units/entity")
+local keyboardMovement = require("Component/movement/keyboardMovement")
+local levitate = require("Component/movement/ai/levitate")
+
+local playerSprite
+local playerEntity
+local ghostSprite
+local ghost
+
+function love.load ()
+	playerSprite = sprite:create("Assets/human.png")
+	playerEntity = entity:create(playerSprite, 50, 50, 1.5, keyboardMovement)
+	ghostSprite = sprite:create("Assets/Ghost2GreyRed.png")
+	ghost = entity:create(ghostSprite, 100, 100, 1.25, levitate)
+end
+
+function love.update ()
+	playerEntity:update()
+	ghost:update()
+end
+
+function love.draw ()
+	playerEntity:draw()
+	ghost:draw()
 end
