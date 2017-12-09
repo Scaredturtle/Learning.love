@@ -180,25 +180,28 @@ local sprite = require("Component/units/sprite")
 local entity = require("Component/units/entity")
 local keyboardMovement = require("Component/movement/keyboardMovement")
 local levitate = require("Component/movement/ai/levitate")
+local gamestate = require("Component/gamestate")
 
 local playerSprite
-local playerEntity
+local player
 local ghostSprite
 local ghost
+local game
 
 function love.load ()
 	playerSprite = sprite:create("Assets/human.png")
-	playerEntity = entity:create(playerSprite, 50, 50, 1.5, keyboardMovement)
+	player = entity:create(playerSprite, 50, 50, 1.5, keyboardMovement)
+	game = gamestate:create(player)
+
 	ghostSprite = sprite:create("Assets/Ghost2GreyRed.png")
 	ghost = entity:create(ghostSprite, 100, 100, 1.25, levitate)
+	game:addEntity(ghost)
 end
 
 function love.update ()
-	playerEntity:update()
-	ghost:update()
+	game:update()
 end
 
 function love.draw ()
-	playerEntity:draw()
-	ghost:draw()
+	game:draw()
 end
