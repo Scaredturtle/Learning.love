@@ -182,19 +182,17 @@ local keyboardMovement = require("Component/movement/keyboardMovement")
 local levitate = require("Component/movement/ai/levitate")
 local gamestate = require("Component/gamestate")
 
-local playerSprite
-local player
-local ghostSprite
-local ghost
+local player = {}
+local ghost = {}
 local game
 
 function love.load ()
-	playerSprite = sprite:create("Assets/human.png")
-	player = entity:create(playerSprite, 50, 50, 1.5, keyboardMovement)
+	player.s = sprite:create("Assets/human.png")
+	player.e = entity:create(player.s, 50, 50, 1.5, keyboardMovement)
 	game = gamestate:create(player)
 
-	ghostSprite = sprite:create("Assets/Ghost2GreyRed.png")
-	ghost = entity:create(ghostSprite, 100, 100, 1.25, levitate)
+	ghost.s = sprite:create("Assets/Ghost2GreyRed.png")
+	ghost.e = entity:create(ghost.s, 100, 100, 1.25, levitate)
 	game:addEntity(ghost)
 end
 
