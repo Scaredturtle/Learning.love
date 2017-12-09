@@ -189,11 +189,11 @@ local game
 function love.load ()
 	player.s = sprite:create("Assets/human.png")
 	player.e = entity:create(player.s, 50, 50, 1.5, keyboardMovement)
-	game = gamestate:create(player)
+	game = gamestate:create(player.e)
 
 	ghost.s = sprite:create("Assets/Ghost2GreyRed.png")
 	ghost.e = entity:create(ghost.s, 100, 100, 1.25, levitate)
-	game:addEntity(ghost)
+	game:addEntity(ghost.e)
 end
 
 function love.update ()
