@@ -8,6 +8,13 @@ local update = function (self)
     self.movement:update(self)
 end
 
+function entity:position (self)
+    return {
+        x = self.x,
+        y = self.y
+    }
+end
+
 function entity:create (sprite, x, y, speed, movement)
     local inst = {}
 
