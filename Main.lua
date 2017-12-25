@@ -198,8 +198,19 @@ end
 
 function love.update ()
 	game:update()
+	if love.keyboard.isDown("s") then
+		if Menu ~= nil then
+			Menu = nil
+		elseif Menu == nil then 
+			Menu = true
+		end
+	end
 end
 
 function love.draw ()
 	game:draw()
+	if Menu == true then
+		love.graphics.rectangle("fill", 200, 200, 350, 150)
+		love.graphics.print({{0,0,0,255}, "MENU"}, 205, 205)
+	end
 end
