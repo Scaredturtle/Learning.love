@@ -183,6 +183,7 @@ local levitate = require("Component/movement/ai/levitate")
 local gamestate = require("Component/gamestate")
 
 local player = {}
+player.exp = 0
 local ghost = {}
 local game
 
@@ -212,9 +213,9 @@ function love.draw ()
 end
 
 function love.keypressed( key )
-	if key == "s" and Menu ~= nil then
+	if key == "escape" and Menu ~= nil then
 		Menu = nil
-	elseif key == "s" then
+	elseif key == "escape" then
 		Menu = sprite:create("Assets/menu.png", 10, 10)
 	end
 end
@@ -223,6 +224,18 @@ function love.mousepressed(x, y, button)
 	if button == 1 and Menu ~= nil then
 		if (x > 105 and x < 270 and y > 400 and y < 425) then
 			love.event.quit()
+		elseif (x > 105 and x < 270 and y > 250 and y < 275) then
+			--save
+			file = io.open("Learning.love/savefile.txt", "w+")
+			file:write(player.exp, "\n")
+			io.close(file)
+			--saves the exp of current player
+
+			--[[load
+			file = io.open("Learning.love/savefile.txt", "r")
+			player.exp = file:read()
+			io.close(file) 
+			-- this pulls the first line from file and replaces default/old
 		end
 	end
 end
