@@ -191,26 +191,38 @@ function love.load ()
 	player.e = entity:create(player.s, 50, 50, 1.5, keyboardMovement)
 	game = gamestate:create(player.e)
 
-	--[[ghost.s = sprite:create("Assets/Ghost2GreyRed.png")
+	ghost.s = sprite:create("Assets/Ghost2GreyRed.png")
 	ghost.e = entity:create(ghost.s, 100, 100, 1.25, levitate)
-	game:addEntity(ghost.e)]]--
+	game:addEntity(ghost.e)
 end
 
 function love.update ()
 	game:update()
-	if love.keyboard.isDown("s") then
-		if Menu ~= nil then
-			Menu = nil
-		elseif Menu == nil then 
-			Menu = true
-		end
-	end
+	mouse_x = love.mouse.getX()
+	mouse_y = love.mouse.getY()
 end
 
 function love.draw ()
 	game:draw()
-	if Menu == true then
-		love.graphics.rectangle("fill", 200, 200, 350, 150)
-		love.graphics.print({{0,0,0,255}, "MENU"}, 205, 205)
+	if Menu ~= nil then
+		Menu:draw()
+		--love.graphics.print({{0,0,0,255}, "MENU"}, 205, 205)
+	end
+	love.graphics.print( "Mouse X: ".. mouse_x .. " Mouse Y: " .. mouse_y, 10, 20 )
+end
+
+function love.keypressed( key )
+	if key == "s" and Menu ~= nil then
+		Menu = nil
+	elseif key == "s" then
+		Menu = sprite:create("Assets/menu.png", 10, 10)
+	end
+end
+
+function love.mousepressed(x, y, button)
+	if button == 1 and Menu ~= nil then
+		if (x > 105 and x < 270 and y > 400 and y < 425) then
+			love.event.quit()
+		end
 	end
 end
