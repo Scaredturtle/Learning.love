@@ -222,16 +222,17 @@ end
 
 function love.mousepressed(x, y, button)
 	if button == 1 and Menu ~= nil then
-		if (x > 105 and x < 270 and y > 400 and y < 425) then
+		if (x > 105 and x < 180 and y > 400 and y < 425) then
 			love.event.quit()
-		elseif (x > 105 and x < 270 and y > 250 and y < 275) then
+		elseif (x > 105 and x < 180 and y > 250 and y < 275) then
 			--save
 			file = io.open("Learning.love/savefile.txt", "w+")
 			file:write(player.exp, "\n")
 			io.close(file)
 			--saves the exp of current player
 
-			--[[load
+		elseif (x > 270 and x < 340 and y > 245 and y < 275) then
+			--load
 			file = io.open("Learning.love/savefile.txt", "r")
 			player.exp = file:read()
 			io.close(file) 
