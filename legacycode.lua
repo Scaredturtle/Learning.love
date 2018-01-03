@@ -1,3 +1,8 @@
+love.graphics.print({{0,0,0,255}, "TOUCH"}, 205, 205)
+
+
+
+
 --[[local camera = require ("Component.camera")
 --local player = require ("Component.player")
 --local ghosts = require ("Component.ghosts")

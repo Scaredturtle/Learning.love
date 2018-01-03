@@ -3,23 +3,9 @@ local entity = require("Component/units/entity")
 local keyboardMovement = require("Component/movement/keyboardMovement")
 local levitate = require("Component/movement/ai/levitate")
 --[[ 
-		is there some where, any where, where you could possibly find
-		where this levitate function/class/returns_movement that was
-		assigned to the entity (which was passed during function call)
-		ACTUALLY gets ran? 
+		i think next plan of action is to actually create a battle screen
+		think pokemon for now
 
-		Am I to assume that this language just runs the update of other
-		functions the moment its required?
-
-		Is that multithreading?
-
-		Is this real life?
-
-		Fuck.
-
-		update: had to play follow the trail of update after deciding to
-		comment out require file of levitate, but now I feel dumb and I
-		have to redeem myself a little.
 		oh. uhh.. why is there a ghost.lua if it is never called? 
 
 
@@ -32,18 +18,9 @@ player.exp = 0
 local ghost = {}
 local game
 
---adding collision functions here for now
-local touch
+--not sure why this is here anymore...
 local dist
 
-function checkCollision(x1, y1, x2, y2)
-	--fine tuned collision for now. feels real good.
-	if ((x1+27) >= x2 and x1 <= (x2+26)) and ((y1+27) >= y2 and y1 <= (y2+27)) then
-		return true
-	else
-		return false
-	end
-end
 
 function checkDistance(x1, y1, x2, y2)
 	local dx = x1 - x2
@@ -61,20 +38,23 @@ function love.load ()
 
 	ghost.s = sprite:create("Assets/Ghost2GreyRed.png")
 	ghost.e = entity:create(ghost.s, 100, 100, 1, levitate)
+	ghost.e2 = entity:create(ghost.s, 100, 300, 1, levitate)
 	game:addEntity(ghost.e)
+	game:addEntity(ghost.e2)
 end
 
 function love.update ()
 	game:update()
-
+	
 	--picking up this info constantly, right now mouse is just display
 	mouse_x = love.mouse.getX()
 	mouse_y = love.mouse.getY()
-	touch = checkCollision(player.e.x, player.e.y, ghost.e.x, ghost.e.y)
-	if touch then
-		player.exp = player.exp + 1
-	end
+
+	--for right now just to show saving/loading the exp just goes up 4ever
+	player.exp = player.exp + 1
+	
 	dist = math.floor( checkDistance(player.e.x, player.e.y, ghost.e.x, ghost.e.y) )
+	--right now dist does nothing, might not need end game.
 end
 
 function love.draw ()
@@ -83,26 +63,22 @@ function love.draw ()
 		Menu:draw()
 	end
 	love.graphics.print("Mouse X: ".. mouse_x .. " Mouse Y: " .. mouse_y, 10, 20 )
-	if touch == true then
-		--this is where we would segway to the other "fight screen"
-		--will need to perform some kind of "stop motion" command
-		love.graphics.print({{0,0,0,255}, "TOUCH"}, 205, 205)
-	end
+	
 
-	--[[	the debug boi cout << "test" << endl;
-	love.graphics.print("Distance:  "..dist, 10, 50 )
+	--	the debug boi cout << "test" << endl;
+	--love.graphics.print("Distance:  "..dist, 10, 50 )
 	love.graphics.print("Player X Position:  "..player.e.x, 10, 80)
 	love.graphics.print("Player Y Position:  "..player.e.y, 10, 90)
-	love.graphics.print("Ghost X Position:  "..ghost.e.x, 170, 80)
-	love.graphics.print("Ghost Y Position:  "..ghost.e.y, 170, 90)
-	]]--
+	--love.graphics.print("Ghost X Position:  "..ghost.e.x, 170, 80)
+	--love.graphics.print("Ghost Y Position:  "..ghost.e.y, 170, 90)
+	
 end
 
 function love.keypressed( key )
 	if key == "escape" and Menu ~= nil then
 		Menu = nil
 	elseif key == "escape" then
-		Menu = sprite:create("Assets/menu.png", 10, 10)
+		Menu = sprite:create("Assets/menu.png")
 	end
 end
 
