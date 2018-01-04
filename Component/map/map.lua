@@ -20,7 +20,7 @@ local _createRoom = function (game)
         as of right now it just creates only one ghost per room you walk
         into.
     ]]--
-    game:clearEntities()
+    --game:clearEntities()
 
     local entities = {}
     for i=1, math.random(5) do
