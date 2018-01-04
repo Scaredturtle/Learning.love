@@ -5,17 +5,6 @@ local rooms = {}
 local roomw = 800
 local roomh = 600
 
-local smack = false
-
-local collision = function (self, game)
-  for _, entity in ipairs(self.entities) do
-    smack = collide:check(game.player, entity)
-    if smack then
-      love.graphics.print({{0,0,0,255}, "Battle starts"}, 10, 50 )
-    end
-    end
-end
-
 
 local draw = function (self)
     love.graphics.push('all')
@@ -31,7 +20,8 @@ end
 
 
 local update = function (self, game, map)
-    collision(self, game)
+    collide:update(self.entities, game)
+
     for _, entity in ipairs(self.entities) do
         entity:update(game)
     end
