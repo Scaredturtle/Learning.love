@@ -19,15 +19,15 @@ local ghost = {}
 local game
 
 --not sure why this is here anymore...
-local dist
+--local dist
 
-
+--[[
 function checkDistance(x1, y1, x2, y2)
 	local dx = x1 - x2
 	local dy = y1 - y2
 	return math.sqrt((dx*dx) + (dy*dy))
 end
-
+]]--
 
 function love.load ()
 	player.s = sprite:create("Assets/human.png") 
@@ -35,12 +35,6 @@ function love.load ()
 	--width of player image is 30 x 30 for this particular image
 	player.e = entity:create(player.s, 50, 50, 2, keyboardMovement)
 	game = gamestate:create(player.e)
-
-	ghost.s = sprite:create("Assets/Ghost2GreyRed.png")
-	ghost.e = entity:create(ghost.s, 100, 100, 1, levitate)
-	ghost.e2 = entity:create(ghost.s, 100, 300, 1, levitate)
-	game:addEntity(ghost.e)
-	game:addEntity(ghost.e2)
 end
 
 function love.update ()
@@ -53,7 +47,7 @@ function love.update ()
 	--for right now just to show saving/loading the exp just goes up 4ever
 	player.exp = player.exp + 1
 	
-	dist = math.floor( checkDistance(player.e.x, player.e.y, ghost.e.x, ghost.e.y) )
+	--dist = math.floor( checkDistance(player.e.x, player.e.y, ghost.e.x, ghost.e.y) )
 	--right now dist does nothing, might not need end game.
 end
 

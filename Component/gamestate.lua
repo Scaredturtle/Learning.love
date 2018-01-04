@@ -28,6 +28,13 @@ local deleteEntity = function (self, passedEntity)
     end
 end
 
+local clearEntities = function (self)
+    for index, entity in ipairs(self.entities) do
+        table.remove(self.entities)
+    end
+end
+
+
 local update = function (self)
     self.map:update(self)
     self.player:update()
@@ -62,6 +69,7 @@ function gamestate:create (player)
 
     inst.addEntity = addEntity
     inst.deleteEntity = deleteEntity
+    inst.clearEntities = clearEntities
     inst.update = update
     inst.draw = draw
 

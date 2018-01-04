@@ -25,6 +25,7 @@ end
 function battle:engage(game, entity)  --game was self from gamestate. 
 	local inst = {}
 	--load up a new screen
+	inst.screen = screen
     inst.entity = entity
     inst.run = run
     inst.draw = draw

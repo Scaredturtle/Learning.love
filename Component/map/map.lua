@@ -20,11 +20,14 @@ local _createRoom = function (game)
         as of right now it just creates only one ghost per room you walk
         into.
     ]]--
+    game:clearEntities()
 
-    local xPos = math.random(800)
-    local yPos = math.random(600)
-    entities = ghost:create(xPos, yPos)
-    game:addEntity(entities)
+    local entities = {}
+    for i=1, math.random(5) do
+        local xPos = math.random(800)
+        local yPos = math.random(600)
+        entities[i] = ghost:create(xPos, yPos)
+    end
     return rooms:create(entities)
 end
 
