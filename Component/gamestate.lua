@@ -1,4 +1,5 @@
 local map = require("Component/map/map")
+local battle = require("Component/battle")
 
 local gamestate = {}
 local touch
@@ -35,8 +36,9 @@ local update = function (self)
         entity:update()
         touch = checkCollision(self.player.x, self.player.y, entity.x, entity.y)
         if touch then
-            deleteEntity(self, entity) --not sure why it required the argument self to work...
-            --right now delete when they touch. 
+            --deleteEntity(self, entity) --not sure why it required the argument self to work...
+            --right now delete when they touch. the dream is 
+            battle:engage(self, entity)
         end
     end
 end

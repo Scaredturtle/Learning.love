@@ -14,10 +14,14 @@ local draw = function (self)
     end
 end
 
+
+--isn't updating entities in here uneccessary as long as added to game?
 local update = function (self, game, map)
+    --[[
     for _, entity in ipairs(self.entities) do
         entity:update(game)
     end
+    ]]--
 
     if game.player.x > roomw then
         map:nextRoom(game)

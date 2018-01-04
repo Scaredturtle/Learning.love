@@ -62,16 +62,14 @@ function love.draw ()
 	if Menu ~= nil then
 		Menu:draw()
 	end
-	love.graphics.print("Mouse X: ".. mouse_x .. " Mouse Y: " .. mouse_y, 10, 20 )
 	
-
 	--	the debug boi cout << "test" << endl;
 	--love.graphics.print("Distance:  "..dist, 10, 50 )
-	love.graphics.print("Player X Position:  "..player.e.x, 10, 80)
-	love.graphics.print("Player Y Position:  "..player.e.y, 10, 90)
+	--love.graphics.print("Player X Position:  "..player.e.x, 10, 80)
+	--love.graphics.print("Player Y Position:  "..player.e.y, 10, 90)
 	--love.graphics.print("Ghost X Position:  "..ghost.e.x, 170, 80)
 	--love.graphics.print("Ghost Y Position:  "..ghost.e.y, 170, 90)
-	
+	--love.graphics.print("Mouse X: ".. mouse_x .. " Mouse Y: " .. mouse_y, 10, 20 )
 end
 
 function love.keypressed( key )
