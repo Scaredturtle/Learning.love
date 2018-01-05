@@ -20,16 +20,24 @@ end
 
 
 local update = function (self, game, map)
-    collide:update(self.entities, game)
-
     for _, entity in ipairs(self.entities) do
-        entity:update(game)
+        collide:update(game.player, entity)
+        entity:update(game) --why pass game to entity?
     end
     
+    --[[
+    sooo... either this update is never run (doubt becuz ghosts are moving)
+    or i dunno. but this line should print. was trying to see if for some 
+    reason game.player was nil or junk data. but it turns out this line is
+    never ran?
+    ]]--
+    love.graphics.print({{0,0,0,255}, "Inside rooms.update() player.x: "..game.player.x}, 10, 100 )
 
     if game.player.x > roomw then
         map:nextRoom(game)
     end
+
+    --but these bits get run? so why are these two working if the print isn't?
 
     if game.player.x < 0 then
         map:previousRoom(game)
@@ -42,7 +50,6 @@ function rooms:create (entities)
     inst.color = {math.random(255), math.random(255), math.random(255)}
 
     inst.entities = entities
-    inst.collision = collision
     inst.draw = draw
     inst.update = update
 

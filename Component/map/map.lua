@@ -12,16 +12,7 @@ local update = function (self, game)
     self.rooms[self.i]:update(game, self)
 end
 
-local _createRoom = function (game)
-    --local ghostSprite = sprite:create("Assets/Ghost2GreyRed.png")
-    --[[ 
-        is there a way to maybe loop the create ghost process a random 
-        number of times? say 2-10 times or something? 
-        as of right now it just creates only one ghost per room you walk
-        into.
-    ]]--
-    --game:clearEntities()
-
+local _createRoom = function ()
     local entities = {}
     for i=1, math.random(5) do
         local xPos = math.random(800)
@@ -33,7 +24,7 @@ end
 
 local nextRoom = function (self, game)
     if self.i == #self.rooms then
-        table.insert(self.rooms, _createRoom(game))
+        table.insert(self.rooms, _createRoom())
     end
 
     game.player.x = 1
@@ -47,12 +38,12 @@ local previousRoom = function (self,game)
     end
 end
 
-function map:create ()
+function map:create (game)
     local inst = {}
 
     inst.i = 1
     inst.rooms = {}
-    inst.rooms[1] = rooms:create({})
+    inst.rooms[1] = _createRoom()
 
     inst.draw = draw
     inst.update = update

@@ -2,32 +2,12 @@ local sprite = require("Component/units/sprite")
 local entity = require("Component/units/entity")
 local keyboardMovement = require("Component/movement/keyboardMovement")
 local levitate = require("Component/movement/ai/levitate")
---[[ 
-		i think next plan of action is to actually create a battle screen
-		think pokemon for now
-
-		oh. uhh.. why is there a ghost.lua if it is never called? 
-
-
-		...or is it?
-]]--
 local gamestate = require("Component/gamestate")
 
 local player = {}
 player.exp = 0
 local ghost = {}
 local game
-
---not sure why this is here anymore...
---local dist
-
---[[
-function checkDistance(x1, y1, x2, y2)
-	local dx = x1 - x2
-	local dy = y1 - y2
-	return math.sqrt((dx*dx) + (dy*dy))
-end
-]]--
 
 function love.load ()
 	player.s = sprite:create("Assets/human.png") 
@@ -41,14 +21,12 @@ function love.update ()
 	game:update()
 	
 	--picking up this info constantly, right now mouse is just display
-	mouse_x = love.mouse.getX()
-	mouse_y = love.mouse.getY()
+	--mouse_x = love.mouse.getX()
+	--mouse_y = love.mouse.getY()
 
 	--for right now just to show saving/loading the exp just goes up 4ever
 	player.exp = player.exp + 1
 	
-	--dist = math.floor( checkDistance(player.e.x, player.e.y, ghost.e.x, ghost.e.y) )
-	--right now dist does nothing, might not need end game.
 end
 
 function love.draw ()
@@ -58,11 +36,9 @@ function love.draw ()
 	end
 	
 	--	the debug boi cout << "test" << endl;
-	--love.graphics.print("Distance:  "..dist, 10, 50 )
 	--love.graphics.print("Player X Position:  "..player.e.x, 10, 80)
 	--love.graphics.print("Player Y Position:  "..player.e.y, 10, 90)
-	--love.graphics.print("Ghost X Position:  "..ghost.e.x, 170, 80)
-	--love.graphics.print("Ghost Y Position:  "..ghost.e.y, 170, 90)
+	-- this cout line requires the mouse_x and mouse_y from update
 	--love.graphics.print("Mouse X: ".. mouse_x .. " Mouse Y: " .. mouse_y, 10, 20 )
 end
 
