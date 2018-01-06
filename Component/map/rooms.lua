@@ -1,4 +1,4 @@
-local collide = require("Component/collision")
+--local collide = require("Component/collision")
 
 local rooms = {}
 
@@ -21,7 +21,11 @@ end
 
 local update = function (self, game, map)
     for _, entity in ipairs(self.entities) do
-        collide:update(game.player, entity)
+        --collide:update(game.player, entity)
+        --could the issue be that its only checking for the collision once
+        --per time the ghosts are told to update?
+        --don't the ghosts continuously update?
+        --makes sense that the collision would continuously update as well.
         entity:update(game) --why pass game to entity?
     end
     

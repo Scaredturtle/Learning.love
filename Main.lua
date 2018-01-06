@@ -21,8 +21,8 @@ function love.update ()
 	game:update()
 	
 	--picking up this info constantly, right now mouse is just display
-	--mouse_x = love.mouse.getX()
-	--mouse_y = love.mouse.getY()
+	mouse_x = love.mouse.getX()
+	mouse_y = love.mouse.getY()
 
 	--for right now just to show saving/loading the exp just goes up 4ever
 	player.exp = player.exp + 1
@@ -39,7 +39,7 @@ function love.draw ()
 	--love.graphics.print("Player X Position:  "..player.e.x, 10, 80)
 	--love.graphics.print("Player Y Position:  "..player.e.y, 10, 90)
 	-- this cout line requires the mouse_x and mouse_y from update
-	--love.graphics.print("Mouse X: ".. mouse_x .. " Mouse Y: " .. mouse_y, 10, 20 )
+	love.graphics.print("Mouse X: ".. mouse_x .. " Mouse Y: " .. mouse_y, 600, 20 )
 end
 
 function love.keypressed( key )
