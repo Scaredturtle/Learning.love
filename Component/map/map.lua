@@ -38,7 +38,7 @@ local previousRoom = function (self,game)
     end
 end
 
-function map:create (game)
+function map:create (game) --passed game? why?
     local inst = {}
 
     inst.i = 1

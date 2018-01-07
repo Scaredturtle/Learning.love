@@ -12,10 +12,13 @@ local checkCollision = function (x1, y1, x2, y2)
     end
 end
 
+local draw = function(player, entity)
+  love.graphics.print({{0,0,0,255}, "player.x within collision: "..player.x}, 250, 110 )
+  love.graphics.print({{0,0,0,255}, "player.y within collision: "..player.y}, 250, 120 )
+end
+
 function collision:check (player, entity)
   touch = checkCollision(player.x, player.y, entity.x, entity.y)
-  love.graphics.print({{0,0,0,255}, "player.x within collision: "..player.x}, 250, 70 )
-  love.graphics.print({{0,0,0,255}, "player.y within collision: "..player.y}, 250, 80 )
   if touch then
     love.graphics.print({{0,0,0,255}, "Battle starts"}, 250, 50 )
   else
