@@ -1,5 +1,6 @@
 local map = require("Component/map/map")
 local collide = require("Component/collision")
+local fight = require("Component/battle")
 
 local gamestate = {}
 local touching = false
@@ -11,6 +12,7 @@ local update = function (self)
     for _,entity in ipairs(self.map.rooms[self.map.i].entities) do
         --this is the entirety of the collision.lua
         if ((self.player.x +27) >= entity.x and self.player.x <= (entity.x+26)) and ((self.player.y+27) >= entity.y and self.player.y <= (entity.y+27)) then
+            fight:engage(self.player, entity)
             touching = true
         end
         --collide:check(self.player, entity)
@@ -37,6 +39,7 @@ local draw = function (self)
     self.player:draw()
     if touching then
         love.graphics.print({{0,0,0,255}, "Battle starts"}, 250, 50 )
+        touching = false
     else
         love.graphics.print({{0,0,0,255}, "No Battle"}, 250, 50 )
     end
