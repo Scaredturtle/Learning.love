@@ -5,7 +5,7 @@ local levitate = require("Component/movement/ai/levitate")
 local gamestate = require("Component/gamestate")
 
 local player = {}
-player.exp = 0
+
 local ghost = {}
 local game
 
@@ -13,19 +13,18 @@ function love.load ()
 	player.s = sprite:create("Assets/human.png") 
 	--x,y of image is top left corner of image
 	--width of player image is 30 x 30 for this particular image
-	player.e = entity:create(player.s, 50, 50, 2, keyboardMovement)
+	player.e = entity:create(player.s, 50, 50, 3, keyboardMovement, 100, 15)
+	player.e.exp = 0
 	game = gamestate:create(player.e)
 end
 
 function love.update ()
-	game:update()
-	
+	if Menu == nil then
+		game:update()
+	end
 	--picking up this info constantly, right now mouse is just display
 	mouse_x = love.mouse.getX()
 	mouse_y = love.mouse.getY()
-
-	--for right now just to show saving/loading the exp just goes up 4ever
-	player.exp = player.exp + 1
 	
 end
 
@@ -57,14 +56,14 @@ function love.mousepressed(x, y, button)
 		elseif (x > 105 and x < 180 and y > 250 and y < 275) then
 			--save
 			file = io.open("Learning.love/savefile.txt", "w+")
-			file:write(player.exp, "\n")
+			file:write(player.e.exp, "\n")
 			io.close(file)
 			--saves the exp of current player only for now
 
 		elseif (x > 270 and x < 340 and y > 245 and y < 275) then
 			--load
 			file = io.open("Learning.love/savefile.txt", "r")
-			player.exp = file:read()
+			player.e.exp = file:read()
 			io.close(file) 
 			--this pulls the first line from file and replaces default/old
 			--I assume the next read() invoke pulls next line until end?

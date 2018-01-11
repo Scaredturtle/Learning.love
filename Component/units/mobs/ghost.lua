@@ -8,7 +8,7 @@ local ghostSprite = sprite:create("Assets/Ghost2GreyRed.png")
 local speed = 1
 
 function ghost:create (xPos, yPos)
-    return entity:create(ghostSprite, xPos, yPos, speed, levitate)
+    return entity:create(ghostSprite, xPos, yPos, speed, levitate, 60, 5)
 end
 
 return ghost

@@ -1,7 +1,11 @@
 local entity = {}
 
 local draw = function (self)
-    self.sprite:draw(self.x, self.y)
+    if self.health > 0 then
+        self.sprite:draw(self.x, self.y)
+        love.graphics.print({{0,255,0,255}, self.health}, self.x+3, self.y-10)
+    end
+
 end
 
 local update = function (self)
@@ -15,7 +19,7 @@ function entity:position (self)
     }
 end
 
-function entity:create (sprite, x, y, speed, movement)
+function entity:create (sprite, x, y, speed, movement, health, damage)
     local inst = {}
 
     inst.sprite = sprite
@@ -23,6 +27,8 @@ function entity:create (sprite, x, y, speed, movement)
     inst.y = y
     inst.speed = speed
     inst.movement = movement
+    inst.health = health
+    inst.damage = damage
 
     inst.draw = draw
     inst.update = update

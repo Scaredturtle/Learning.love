@@ -20,23 +20,26 @@ local run = function ()
 end
 
 
-function battle:engage(player, entity)  --game was self from gamestate. 
-	--[[
-	local inst = {}
-	--load up a new screen
-	inst.screen = screen
-    inst.entity = entity
-    inst.run = run
-    inst.draw = draw
-    inst.draw()
-    return inst
-    ]]--
-    --while (not run) do
-    --draw()
-    love.graphics.print({{0,0,0,255}, "Test"}, 240, 10 )
-	--end
+local function engage(player, enemy)  --game was self from gamestate. 
+	if enemy.health > 0 then
+	enemy.health = enemy.health - player.damage		--this works regardless if its returned?
+	
+		if enemy.health > 0 then
+			player.health = player.health - enemy.damage
+		end
+	end
+
+    if player.health <= 0 then
+    	player.x = 50
+    	player.y = 50
+    	player.health = 100
+	elseif enemy.health == 0 then
+		player.exp = player.exp + 50
+	end
+
 	--screen includes buttons fight, run, item, party?, etc.
 	--run update on this screen until run/someone dies
+	return	player
 end
 
 function love.keypressed( key )
@@ -50,5 +53,6 @@ function love.keypressed( key )
 	end
 end
 
+battle.engage = engage
 
 return battle
