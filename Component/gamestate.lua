@@ -15,10 +15,23 @@ local update = function (self)
         end
     end
 
-    --if not touching then
-        self.player:update()
-        self.map:update(self)
-    --end 
+    --assign level to a holder if its not nil
+    if self.player.level ~= nil then
+        templevel = self.player.level
+    else
+        templevel = 1 --if nil its 1
+    end
+    --assign level based on exp
+    self.player.level =  math.floor(self.player.exp / 250) + 1
+    
+    --if level up raise max health + damage
+    if templevel < self.player.level then
+        self.player.maxhealth = (self.player.level*100)
+        self.player.damage = self.player.damage + 5
+    end
+
+    self.player:update()
+    self.map:update(self)
 end
 
 local draw = function (self)
@@ -35,7 +48,8 @@ local draw = function (self)
     love.graphics.print("player.x within gamestate: "..self.player.x, 250, 70 )
     love.graphics.print("player.y within gamestate: "..self.player.y, 250, 80 ) 
     ]]--
-    love.graphics.print({{0,0,0,255}, "EXP: "..self.player.exp}, 50, 550 )
+    love.graphics.print({{0,0,0,255}, "EXP: "..self.player.exp}, 50, 550)
+    love.graphics.print({{0,0,0,255}, "LEVEL: "..self.player.level}, 50, 570)
     self.player:draw()
     if touching then
         love.graphics.print({{0,0,0,255}, "Battle starts"}, 250, 50 )

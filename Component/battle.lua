@@ -32,8 +32,8 @@ local function engage(player, enemy)  --game was self from gamestate.
     if player.health <= 0 then
     	player.x = 50
     	player.y = 50
-    	player.health = 100
-	elseif enemy.health == 0 then
+    	player.health = player.maxhealth
+	elseif enemy.health <= 0 then
 		player.exp = player.exp + 50
 	end
 

@@ -28,6 +28,7 @@ function entity:create (sprite, x, y, speed, movement, health, damage)
     inst.speed = speed
     inst.movement = movement
     inst.health = health
+    inst.maxhealth = health
     inst.damage = damage
 
     inst.draw = draw
