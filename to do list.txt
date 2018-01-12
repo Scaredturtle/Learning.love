@@ -1,8 +1,8 @@
 to do with ghost hunter:
 
-create truly random ghost spawn event.
+create truly random ghost spawn event. CHECK
 health bar. ....maybe not?
-exp bar. ...maybe not? probs just in stat screen
+exp bar. ...maybe not? probs just in stat screen (bottom left will be stats.)
 intelligent fight?
 
 once intelligent fight:
@@ -13,3 +13,5 @@ party follows on screen like pikachu's ass in yellow
 (follow will need dist code)
 
 use speed stat to time who fights when
+
+create combat log

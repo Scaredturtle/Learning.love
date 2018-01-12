@@ -14,9 +14,10 @@ end
 
 local _createRoom = function ()
     local entities = {}
+    math.randomseed(os.time())
     for i=1, math.random(5) do
-        local xPos = math.random(800)
-        local yPos = math.random(600)
+        local xPos = math.random(770)
+        local yPos = math.random(570)
         entities[i] = ghost:create(xPos, yPos)
     end
     return rooms:create(entities)

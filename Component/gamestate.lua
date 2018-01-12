@@ -27,6 +27,7 @@ local update = function (self)
     --if level up raise max health + damage
     if templevel < self.player.level then
         self.player.maxhealth = (self.player.level*100)
+        self.player.health = self.player.maxhealth --heal upon level up
         self.player.damage = self.player.damage + 5
     end
 
