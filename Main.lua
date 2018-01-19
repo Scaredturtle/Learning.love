@@ -16,11 +16,12 @@ function love.load ()
 	player.e = entity:create(player.s, 50, 50, 3, keyboardMovement, 100, 15)
 	player.e.exp = 0
 	game = gamestate:create(player.e)
+
 end
 
-function love.update ()
+function love.update (self)
 	if Menu == nil then
-		game:update()
+		game:update(KEYPRESSED)
 	end
 	--picking up this info constantly, right now mouse is just display
 	mouse_x = love.mouse.getX()
@@ -41,13 +42,22 @@ function love.draw ()
 	love.graphics.print("Mouse X: ".. mouse_x .. " Mouse Y: " .. mouse_y, 600, 20 )
 end
 
-function love.keypressed( key )
+KEYPRESSED = {}
+table.insert(KEYPRESSED, function (key)
 	if key == "escape" and Menu ~= nil then
 		Menu = nil
 	elseif key == "escape" then
 		Menu = sprite:create("Assets/menu.png")
 	end
+end)
+
+function love.keypressed(key)
+  	for _,fn in ipairs(KEYPRESSED) do
+    	fn(key)
+  	end
 end
+
+
 
 function love.mousepressed(x, y, button)
 	if button == 1 and Menu ~= nil then

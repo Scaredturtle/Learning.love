@@ -1,58 +1,83 @@
 --[[
-	i assume that running away or enemy dying could be done by
-	deleting the screen? literally.
+	for now the insert function isn't finding the same table from Main. not
+	sure how to pass that table along.
 
-	for now I just want to get something to print to the screen
+	may be the way i passed it along. but for whatever reason it remembers
+	the first input forever, and never returns false for enemy dying.
 ]]--
+
+
 local battle = {}
+
+
 
 local screen = love.graphics.newImage("Assets/battlescreen.png")
 local run = false
 
-local draw = function ()
+local draw = function (self)
 	--love.graphics.draw(screen)
-	love.graphics.print({{0,0,0,255}, "Battle starts"}, 240, 50 )
+	love.graphics.draw(screen)
+	love.graphics.print({{0,255,0,255}, "Hero: "..battle.player.health}, 50, 50)
+	love.graphics.print({{255,0,0,255}, "Ghost: "..battle.enemy.health}, 550, 50)
 end
 
-local run = function ()
-	screen = nil
-	--return to current screen with enemy still alive
-end
-
-
-local function engage(player, enemy)  --game was self from gamestate. 
-	if enemy.health > 0 then
-	enemy.health = enemy.health - player.damage		--this works regardless if its returned?
-	
-		if enemy.health > 0 then
-			player.health = player.health - enemy.damage
+local function update(player, enemy, KEYPRESSED)  --game was self from gamestate. 
+	battle.player = player
+	battle.enemy = enemy
+	table.insert(KEYPRESSED, function (key) 
+	if key == "f" then	
+		if enemy.health > 0 then 
+			enemy.health = enemy.health - player.damage 
+			if enemy.health > 0 then 
+				player.health = player.health - enemy.damage 
+			end 
 		end
-	end
+	elseif key == "r" then 
+		run = true 
+	end 
+	end)
 
+	--if you die
     if player.health <= 0 then
     	player.x = 50
     	player.y = 50
     	player.health = player.maxhealth
+    	return false
+
+    --if they die
 	elseif enemy.health <= 0 then
 		player.exp = player.exp + 50
+		return false
 	end
 
-	--screen includes buttons fight, run, item, party?, etc.
-	--run update on this screen until run/someone dies
-	return	player
-end
-
-function love.keypressed( key )
-	if key == "f" then
-		--hit/get hit
-		--if someone dies, exit screen and enemy dies (+exp message), or GAME OVER
-	elseif key == "r" then
-		run = true
-	elseif key == "i" then
-		--open screen and list inventory... probably another file...
+	--check if run command pressed
+	if run == true then
+		player.x = 50
+    	player.y = 50
+		return false
 	end
+	
+	return true
+
 end
 
-battle.engage = engage
+--[[
+table.insert(KEYPRESSED, function (key) 
+	if key == "f" then	
+		if enemy.health > 0 then 
+			enemy.health = enemy.health - player.damage 
+			if enemy.health > 0 then 
+				player.health = player.health - enemy.damage 
+			end 
+		end
+	elseif key == "r" then 
+		run = true 
+	end 
+end)
+]]--
+
+
+battle.update = update
+battle.draw = draw
 
 return battle
