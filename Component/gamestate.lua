@@ -17,7 +17,7 @@ local update = function (self, KEYPRESSED)
     --check for collision to start battle
     for _,entity in ipairs(self.map.rooms[self.map.i].entities) do
     --this is the entirety of the collision.lua
-        if ((self.player.x +27) >= entity.x and self.player.x <= (entity.x+26)) and ((self.player.y+27) >= entity.y and self.player.y <= (entity.y+27)) and (entity.health > 0) then
+        if (((self.player.x +27) >= entity.x and self.player.x <= (entity.x+26)) and ((self.player.y+27) >= entity.y and self.player.y <= (entity.y+27))) and (entity.health > 0) then
             touching = fight.update(self.player, entity, KEYPRESSED)
         end
     end
@@ -52,7 +52,7 @@ local draw = function (self)
     
     if touching then
         fight.draw()
-    else
+    elseif not touching then
         self.map:draw(self)
 
         --[[  --debugging helps

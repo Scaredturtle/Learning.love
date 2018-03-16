@@ -3,7 +3,9 @@ to do with ghost hunter:
 create truly random ghost spawn event. CHECK
 health bar. ....maybe not?
 exp bar. ...maybe not? probs just in stat screen (bottom left will be stats.)
-intelligent fight?
+intelligent fight?:
+
+right now its completely useless/bugged, but its in progress. hard part is input
 
 once intelligent fight:
 create party
